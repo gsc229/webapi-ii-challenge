@@ -20,3 +20,48 @@
 .App-link {
   color: #09d3ac;
 }
+
+
+.post-inputs-container{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: 0 auto;
+}
+
+
+.editing-inputs{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin: auto;
+}
+
+.edit-post-span{
+  cursor: pointer;
+  color: orange;
+  font-weight: bolder;
+}
+
+.post-content {
+  border: 2px solid black;
+  position: relative;
+  width: 50%;
+  margin: 20px auto;
+}
+
+.delete-post{
+  
+  position: absolute;
+  right: 5px;
+  color: red;
+  cursor: pointer;
+  font-weight: bolder;
+}
+
+.comment p span{
+  color: red;
+  cursor: pointer;
+ 
+
+}
