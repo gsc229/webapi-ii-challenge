@@ -1,9 +1,12 @@
+require('dotenv').config();
 const express = require('express');
+const helmet = require('helmet');
 //1
 const postsRouter = require('./posts/posts-router');
 
 const server = express();
 const db = require('./data/db');
+server.use(helmet());
 server.use(express.json());
 const cors = require('cors');
 server.use(cors());
@@ -17,8 +20,8 @@ server.get('/', (req, res) => {
   res.send(`HELLO I'M WORKING`);
 })
 
+const port = process.env.PORT || 8000;
 
-
-server.listen(4000, () => {
-  console.log('\n*** Server Running on http://localhost:4000 ***\n');
+server.listen(port, () => {
+  console.log(`\n*** Server Running on http://localhost:${port}***\n`);
 });
