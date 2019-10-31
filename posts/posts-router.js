@@ -53,8 +53,6 @@ router.post('/', (req, res) => {
             })
         }
 
-
-
       })
       .catch(err => {
         console.log(err);
@@ -162,8 +160,9 @@ router.get('/comments/:id', (req, res) => {
 
 router.post('/:id/comments', (req, res) => {
   const postId = req.params.id;
+  // check for text and post_id on comments
   const comment = req.body;
-
+  const {text, post_id} = req.body;
   Posts.insertComment(comment)
     .then(newId => {
       if (newId) {

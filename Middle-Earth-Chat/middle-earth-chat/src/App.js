@@ -110,7 +110,10 @@ function App() {
           console.log("App.js leaveComment .post res", res);
           setPosts(res.data);
           getComments(e, id);
-          setComment(initialComment);
+          setComment({
+            ...comment,
+            text: ""
+          });
         })
         .catch(err => {
           console.log("App.js leaveComment .post err", err.errorMessage);
@@ -147,51 +150,65 @@ function App() {
       <h1>Middle Earth Chat</h1>
       <div className="post-inputs-container">
         <input placeholder="Give your post a title" onChange={handlePost} type="text" name="title" value={newPost.title} />
-        <textarea value={newPost.contents} onChange={handlePost} placeholder="Say your piece..." name="contents" id="" cols="100" rows="10" />
-        <button onClick={(e) => { makePost(e, newPost) }} >Post It</button>
+        <textarea value={newPost.contents} onChange={handlePost} placeholder="Say your piece..." name="contents" id="" />
+        <button
+          className="post-it-btn"
+          onClick={(e) => { makePost(e, newPost) }} >Post It</button>
       </div>
       <div className="post-list">
         {posts.map(post => (
 
           <div key={post.id} className="post-content">
-
+            <span className="post-id-span">Post id: {post.id}</span>
             <span onClick={() => {
               setEditPostId(post.id)
-
+              setNewPost(post);
             }} className="edit-post-span">Edit Post</span>
-            <span onClick={(e) => { deletePost(e, post.id) }} className="delete-post" >Delete Post</span>
-            {editPostId === post.id && (
-              <div className="editing-inputs">
-                <input onChange={handlePost} placeholder={post.title} type="text" name="title" />
-                <textarea onChange={handlePost} placeholder={post.contents} name="contents" id="" cols="30" rows="10" />
-                <button onClick={(e) => {
-                  editPost(e, post.id, newPost)
-
-                  setEditPostId("");
-                }}>Submit Changes</button>
-                <button onClick={() => { setEditPostId("") }}>Cancel</button>
-              </div>
-
-
-            )}
+            <span onClick={(e) => { deletePost(e, post.id) }} className="delete-post-span" >Delete Post</span>
             {editPostId !== post.id && (
               <div className="not-editing-view">
                 <h4>{post.title}</h4>
                 <p>{post.contents}</p>
               </div>
             )}
+            {editPostId === post.id && (
+              <div className="not-editing-view">
+                <h4>{newPost.title}</h4>
+                <p>{newPost.contents}</p>
+              </div>
+            )}
+            {editPostId === post.id && (
+              <div className="editing-inputs">
+                <input onChange={handlePost} value={newPost.title} type="text" name="title" />
+                <textarea onChange={handlePost} value={newPost.contents} name="contents" id="" cols="30" rows="10" />
+                <button className="submit-changes-btn" onClick={(e) => {
+                  editPost(e, post.id, newPost)
+                  setNewPost(initialPost);
+                  setEditPostId("");
+                }}>Submit Changes</button>
+                <button className="cancel-changes-btn"
+                  onClick={() => {
+                    setEditPostId("")
+                    setNewPost(initialPost);
+                  }}>Cancel</button>
+              </div>
+
+
+            )}
+
 
             {showId !== post.id && (
-              <button onClick={(e) => {
-                setShow(true);
-                getComments(e, post.id);
-                setShowId(post.id);
-                setComment({
-                  ...comment,
-                  post_id: post.id
-                })
-              }
-              }>See Comments</button>
+              <button className="see-comments-btn"
+                onClick={(e) => {
+                  setShow(true);
+                  getComments(e, post.id);
+                  setShowId(post.id);
+                  setComment({
+                    ...comment,
+                    post_id: post.id
+                  })
+                }
+                }>See Comments</button>
             )}
             {showId === post.id && (
               <div className="comments">
@@ -205,13 +222,15 @@ function App() {
                   <textarea onChange={handleChanges} value={comment.text} placeholder="Say something" name="text" id="" cols="100" rows="5" />
                 </div>
                 <div className="comment-btns">
-                  <button onClick={() => {
-                    setShowId("")
-                    setShow(false)
-                    setComment(initialComment);
-                  }}>Hide Comments</button>
-                  <button onClick={(e) =>
-                    leaveComment(e, post.id, comment)} >Comment</button>
+                  <button className="hide-comments-btn"
+                    onClick={() => {
+                      setShowId("")
+                      setShow(false)
+                      setComment(initialComment);
+                    }}>Hide Comments</button>
+                  <button className="comment-btn"
+                    onClick={(e) =>
+                      leaveComment(e, post.id, comment)} >Comment</button>
                 </div>
 
               </div>
