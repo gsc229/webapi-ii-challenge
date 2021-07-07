@@ -8,6 +8,7 @@ module.exports = {
   insert,
   update,
   remove,
+  removeComment,
   findPostComments,
   findCommentById,
   insertComment,
@@ -35,6 +36,12 @@ function update(id, post) {
 
 function remove(id) {
   return db('posts')
+    .where('id', Number(id))
+    .del();
+}
+//trying this out
+function removeComment(id) {
+  return db('comments')
     .where('id', Number(id))
     .del();
 }
